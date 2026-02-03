@@ -1,0 +1,17 @@
+{
+  "name": "project2",
+  "version": "1.0.0",
+  "description": "Lapas palaišana.\r Terminal -> php -S localhost:8080 -t public",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+      "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18",
+    "vite": "^6.4.1"
+  }
+}

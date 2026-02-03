@@ -1,19 +1,18 @@
 <nav class="bg-blue-500 p-4 text-white">
     <div class="container mx-auto flex justify-between items-center">
         <a href="/" class="text-xl font-bold">
-            My Website <?= isset($page) ? " - {$page}" : '' ?>
+            Easy Finance Tracker App <?= isset($page) ? " - {$page}" : '' ?>
         </a>
         <div class="flex items-center space-x-4">
             <div>
-                <p class="text-red-800">Hello, <?= $_SESSION['user']['email'] ?? 'Guest' ?></p>
+                <p class="text-red-800"><?= $_SESSION['user']['email'] ?? '' ?></p>
             </div>
             <ul class="flex space-x-4">
-                <li><a href="/" class="hover:underline <?= urlIs('/') ? 'text-yellow-300' : ''; ?>">Home</a></li>
-                <?php if ($_SESSION['user'] ?? false)  : ?>
-                <li><a href="/notes" class="hover:underline <?= urlIs('/notes') ? 'text-yellow-300' : ''; ?>">Notes</a></li>
-                <?php endif; ?> 
-                <li><a href="/about" class="hover:underline <?= urlIs('/about') ? 'text-yellow-300' : ''; ?>">About</a></li>
-                <li><a href="/contacts" class="hover:underline <?= urlIs('/contacts') ? 'text-yellow-300' : ''; ?>">Contact</a></li>
+                <?php if ($_SESSION['user'] ?? false) : ?>
+                <li>Current Funds: </li>
+                <li><a href="/account" class="hover:underline <?= urlIs('/account') ? 'text-yellow-300' : ''; ?>">Account</a></li>
+                <li><a href="/account" class="hover:underline <?= urlIs('/') ? 'text-yellow-300' : ''; ?>">Homepage</a></li>
+                <?php endif; ?>
             </ul>
 
             <div id="authLinks" class="flex space-x-4">

@@ -1,3 +1,5 @@
+Kursa darba projekts. Balstīts uz skolas projektu.
+
 Lapas palaišana.
 Terminal -> php -S localhost:8080 -t public
 

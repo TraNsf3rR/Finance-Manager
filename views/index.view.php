@@ -9,6 +9,11 @@ require base_path("views/partials/nav.php");
             <p class="text-slate-400 mb-6">
                 Track spending, filter by date/category, and visualize instantly.
             </p>
+            <?php if (isset($_SESSION['errors'])) : ?>
+                <p class="text-red-400 text-sm"><?= $_SESSION['errors'] ?></p>
+            <?php elseif (isset($_SESSION['success'])) : ?>
+                <p class="text-green-400 text-sm"><?= $_SESSION['success'] ?></p>
+            <?php endif; ?>
 
             <!-- ADD EXPENSES -->
             <section class="rounded-2xl border border-slate-800 bg-slate-900 p-4">

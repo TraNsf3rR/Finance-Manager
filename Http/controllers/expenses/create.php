@@ -2,23 +2,27 @@
 
 use Core\App;
 use Core\Database;
-use Core\Validator;
 
 $db = App::resolve(Database::class);
 
 $userId = $_SESSION['user']['id'];
 
-$errors = [];
+unset($_SESSION['errors'], $_SESSION['success']);
 
-if (!empty($_POST['add_description']) && !empty($_POST['add_amount']) && !empty($_POST['add_date']) && !empty($_POST['add_category']))
-{
+// Verification that all required fields have been filled
+if (!empty($_POST['add_description']) && !empty($_POST['add_amount']) && !empty($_POST['add_date']) && !empty($_POST['add_category'])) {
     $description = $_POST['add_description'];
     $amount = $_POST['add_amount'];
     $date = $_POST['add_date'];
     $category = $_POST['add_category'];
-    
-    echo $description . '<br>' . $amount . '<br>' . $date . '<br>' . $category;
 } else {
-    echo 'not all fields filled';
+    $_SESSION['errors'] = "All fields must be filled in order to add expense";
 }
+
+if (empty($_SESSION['errors'])) {
+    $_SESSION['success'] = 'Expense added';
+};
+
+view("/index.view.php");
+
 

@@ -14,4 +14,5 @@ $router->get('/register', 'registration/create.php')->only('guest');
 $router->post('/register', 'registration/store.php')->only('guest');
 
 // Add expense
+$router->post('/', 'expenses/create.php')->only('auth');
 

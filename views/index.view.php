@@ -3,17 +3,21 @@ require base_path("views/partials/head.php");
 require base_path("views/partials/nav.php");
 ?>
     <!-- Home Page Body -->
-    <div class="container mx-auto max-w-6xl mt-6 mb-6">
+    <div class="container mx-auto max-w-6xl mt-4 mb-4">
         <?php if ($_SESSION['user'] ?? false)  : ?>
-            <h1 class="text-3xl font-semibold mb-2">Dashboard</h1>
-            <p class="text-slate-400 mb-6">
+
+            <!-- Flash Message -->
+            <div class="rounded-xl text-sm">
+                <?php if (isset($_SESSION['errors'])) : ?>
+                    <p class="rounded-xl px-4 py-3 text-sm bg-rose-500/10 text-rose-300 border border-rose-400/20"><?= $_SESSION['errors'] ?></p>
+                <?php elseif (isset($_SESSION['success'])) : ?>
+                    <p class="rounded-xl px-4 py-3 text-sm bg-emerald-500/10 text-emerald-300 border border-emerald-400/20"><?= $_SESSION['success'] ?></p>
+                <?php endif; unset($_SESSION['errors'], $_SESSION['success']); ?>
+            </div>
+            <h1 class="text-3xl font-semibold mb-2 mt-2">Dashboard</h1>
+            <p class="text-slate-400 mb-4">
                 Track spending, filter by date/category, and visualize instantly.
             </p>
-            <?php if (isset($_SESSION['errors'])) : ?>
-                <p class="text-red-400 text-sm"><?= $_SESSION['errors'] ?></p>
-            <?php elseif (isset($_SESSION['success'])) : ?>
-                <p class="text-green-400 text-sm"><?= $_SESSION['success'] ?></p>
-            <?php endif; ?>
 
             <!-- ADD EXPENSES -->
             <section class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
@@ -60,16 +64,14 @@ require base_path("views/partials/nav.php");
                     Add Expense
                     </button>
                 </form>
-                </section>
-            </div>
-        
+            </section>
+    </div>
         <?php else : ?>
             <h1 class="text-3xl font-bold text-center mb-4">Home Page</h1>
             <p class="text-slate-400 text-center">
                 Please log in to use app.
             </p>
         <?php endif ?>
-    </div>
 <?php
 require base_path("views/partials/footer.php");
 ?>

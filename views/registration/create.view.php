@@ -4,9 +4,9 @@ require base_path("views/partials/head.php");
 require base_path("views/partials/nav.php");
 
 ?>
-    <div class="flex justify-center items-center mt-6">
+    <div class="flex justify-center items-center mt-6 mb-6">
         <div class="text-slate-100 border border-slate-700 p-8 rounded-lg shadow-lg w-96">
-        <h2 class="text-2x1 font-bold mb-6 text-center text-slate-100">Register</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center text-slate-100">Register</h2>
             <form method="POST" action="/register">
                 <div class="mb-4">
                     <label class="block text-slate-100">E-mail</label>
@@ -22,7 +22,7 @@ require base_path("views/partials/nav.php");
                         <p class="text-red-400 text-sm"><?= $errors['password'] ?></p>
                     <?php endif; ?>
                 </div>
-                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Register</button>
+                <button type="submit" class="w-full bg-green-950 text-white py-2 rounded-lg hover:bg-green-900">Register</button>
             </form>
         </div>
 </div>

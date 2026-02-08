@@ -6,7 +6,7 @@ $old = $_SESSION['old'] ?? [];
 unset($_SESSION['errors'], $_SESSION['old']);
 
 view("registration/create.view.php", [
-    'page' => 'New User',
+    'page' => 'Register',
     'errors' => $errors,
     'old' => $old
 ]);

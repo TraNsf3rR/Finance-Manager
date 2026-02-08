@@ -39,7 +39,7 @@ if ($user) {
     $_SESSION['errors'] = [
         'email' => 'Email already registered. Please log in.'
     ];
-    redirect('/login');
+    redirect('/register');
 }
 
 $db->query('INSERT INTO users (email, password) VALUES (:email, :password)', [

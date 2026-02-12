@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2025 at 01:32 PM
+-- Generation Time: Feb 12, 2026 at 08:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,35 +18,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `project2`
+-- Database: `financeapp`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notes`
+-- Table structure for table `expenses`
 --
 
-CREATE TABLE `notes` (
+CREATE TABLE `expenses` (
   `id` int(11) NOT NULL,
-  `body` text NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `description` varchar(120) NOT NULL,
+  `amount` float NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `notes`
+-- Dumping data for table `expenses`
 --
 
-INSERT INTO `notes` (`id`, `body`, `user_id`) VALUES
-(2, 'First Note', 2),
-(3, 'Otra Note', 3),
-(4, 'Trešā piezīme', 3),
-(5, 'Pirmais no web pievienots', 2),
-(7, '<h1> new note </h1>', 2),
-(8, '<p> test <br> </p>', 2),
-(9, 'test <br> tets', 2),
-(10, 'aasasadasd <script>alert(\"ha ha ha\")</script>', 2),
-(11, '<h2 style=\"font-size: 100px\"> hahaha </h2>', 2);
+INSERT INTO `expenses` (`id`, `user_id`, `description`, `amount`, `category`, `date`) VALUES
+(5, 6, '123', 123, 'Food', '2026-08-02'),
+(6, 6, '1234', 123, 'Food', '2026-08-02'),
+(13, 13, 'āda', 12.22, 'Food', '2026-08-02');
 
 -- --------------------------------------------------------
 
@@ -65,19 +62,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`) VALUES
-(2, 'Test', '123'),
-(3, 'juris@gmail.com', '123');
+(4, 'gg@gg.lv', '$2y$10$TEUgqcZMJv5FXIOgsM2nzO3KOrjxGaGi1cRjDGwgP/F1HAIHHmaEa'),
+(6, 'test@test.lv', '$2y$10$MrarM/BhdkjYYsa0zi4yUOnROTSeBlefCbILLAxnoOJRgloOO.ap2'),
+(13, 'test@test.coo', '$2y$10$5frFJ25DKll40rYlUTdDmea4Lm3N03xXGAkjYLW9DiiZRow7pJ2rG');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `notes`
+-- Indexes for table `expenses`
 --
-ALTER TABLE `notes`
+ALTER TABLE `expenses`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `fk_user` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -90,26 +88,26 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `notes`
+-- AUTO_INCREMENT for table `expenses`
 --
-ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `expenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `notes`
+-- Constraints for table `expenses`
 --
-ALTER TABLE `notes`
-  ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `expenses`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

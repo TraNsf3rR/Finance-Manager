@@ -1,5 +1,5 @@
 <?php
 
 view("account.view.php", [
-    'page' => 'Account'
+    'page' => 'Account information'
 ]);

@@ -19,6 +19,7 @@ require base_path("views/partials/nav.php");
             Track spending, filter by date/category, and visualize instantly.
         </p>
 
+        <!-- INCOME / EXPENSE DIV -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
             <!-- ADD INCOME -->

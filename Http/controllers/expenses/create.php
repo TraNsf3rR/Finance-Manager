@@ -15,7 +15,8 @@ if (!empty($_POST['description']) && !empty($_POST['amount']) && !empty($_POST['
     $category = $_POST['category'];
 
     // Insert expense in Database
-    $db->query('INSERT INTO expenses (user_id, description, amount, date, category) VALUES (:user_id, :description, :amount, :date, :category)', [
+    $sql = 'INSERT INTO expenses (user_id, description, amount, date, category) VALUES (:user_id, :description, :amount, :date, :category)';
+    $db->query($sql, [
         'user_id' => $userId,
         'description' => $description,
         'amount' => $amount,
@@ -27,10 +28,10 @@ if (!empty($_POST['description']) && !empty($_POST['amount']) && !empty($_POST['
     $_SESSION['errors'] = "All fields must be filled in order to add expense";
 }
 
-// Success message
 if (empty($_SESSION['errors'])) {
+    // Success message
     $_SESSION['success'] = 'Expense added';
 };
 
-view("/index.view.php");
+redirect('/');
 

@@ -15,7 +15,8 @@ if (!empty($_POST['description']) && !empty($_POST['amount']) && !empty($_POST['
     $source = $_POST['source'];
 
     // Insert expense in Database
-    $db->query('INSERT INTO income (user_id, description, amount, date, source) VALUES (:user_id, :description, :amount, :date, :source)', [
+    $sql = 'INSERT INTO income (user_id, description, amount, date, source) VALUES (:user_id, :description, :amount, :date, :source)';
+    $db->query($sql, [
         'user_id' => $userId,
         'description' => $description,
         'amount' => $amount,
@@ -27,10 +28,10 @@ if (!empty($_POST['description']) && !empty($_POST['amount']) && !empty($_POST['
     $_SESSION['errors'] = "All fields must be filled in order to add income";
 }
 
-// Success message
 if (empty($_SESSION['errors'])) {
+    // Success message
     $_SESSION['success'] = 'Income added';
 };
 
-view("/index.view.php");
+redirect('/');
 

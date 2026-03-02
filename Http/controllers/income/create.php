@@ -8,28 +8,28 @@ $db = App::resolve(Database::class);
 $userId = $_SESSION['user']['id'];
 
 // Verification that all required fields have been filled
-if (!empty($_POST['description']) && !empty($_POST['amount']) && !empty($_POST['date']) && !empty($_POST['category'])) {
+if (!empty($_POST['description']) && !empty($_POST['amount']) && !empty($_POST['date']) && !empty($_POST['source'])) {
     $description = $_POST['description'];
     $amount = $_POST['amount'];
     $date = $_POST['date'];
-    $category = $_POST['category'];
+    $source = $_POST['source'];
 
     // Insert expense in Database
-    $db->query('INSERT INTO expenses (user_id, description, amount, date, category) VALUES (:user_id, :description, :amount, :date, :category)', [
+    $db->query('INSERT INTO income (user_id, description, amount, date, source) VALUES (:user_id, :description, :amount, :date, :source)', [
         'user_id' => $userId,
         'description' => $description,
         'amount' => $amount,
         'date' => $date,
-        'category' => $category
+        'source' => $source
     ]);
 } else {
     // Error message
-    $_SESSION['errors'] = "All fields must be filled in order to add expense";
+    $_SESSION['errors'] = "All fields must be filled in order to add income";
 }
 
 // Success message
 if (empty($_SESSION['errors'])) {
-    $_SESSION['success'] = 'Expense added';
+    $_SESSION['success'] = 'Income added';
 };
 
 view("/index.view.php");

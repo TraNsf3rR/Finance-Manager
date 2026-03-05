@@ -15,6 +15,7 @@ require base_path("views/partials/nav.php");
             <?php endif; unset($_SESSION['errors'], $_SESSION['success']); ?>
         </div>
         <h1 class="text-3xl font-semibold mb-2 mt-2">Dashboard</h1>
+        
         <p class="text-slate-400 mb-4">
             Track spending, filter by date/category, and visualize instantly.
         </p>

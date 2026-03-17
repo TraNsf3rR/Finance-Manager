@@ -18,4 +18,5 @@ $router->post('/income', 'income/create.php')->only('auth');
 
 // Add expense
 $router->post('/expenses', 'expenses/create.php')->only('auth');
+$router->delete('/expenses', 'expenses/delete.php')->only('auth');
 

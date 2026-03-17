@@ -49,7 +49,7 @@ require base_path("views/partials/nav.php");
                         <span class="mb-1 block text-slate-300">Date</span>
                         <input
                         name="date"
-                        value="<?= date("Y-d-m") ?>"
+                        value="<?= date("Y-m-d", time()) ?>"
                         type="date"
                         class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100">
                     </label>
@@ -96,7 +96,7 @@ require base_path("views/partials/nav.php");
                         <span class="mb-1 block text-slate-300">Date</span>
                         <input
                         name="date"
-                        value="<?= date("Y-d-m") ?>"
+                        value="<?= date("Y-m-d", time()) ?>"
                         type="date"
                         class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100">
                     </label>
@@ -115,6 +115,64 @@ require base_path("views/partials/nav.php");
                     Add Expense
                     </button>
                 </form>
+            </section>
+        </div>
+
+        <!-- SHOW EXPENSES -->
+        <div class="grid grid-cols-1 gap-4 mt-4">
+            <section class="rounded-2xl border border-slate-800 bg-slate-900">
+                <div class="px-4 py-3 border-b border-slate-800">
+                <h2 class="text-lg font-semibold">Expenses</h2>
+                </div>
+                <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="text-slate-300 bg-slate-800/50">
+                    <tr>
+                        <th class="text-left px-4 py-3">Date</th>
+                        <th class="text-left px-4 py-3">Description</th>
+                        <th class="text-left px-4 py-3">Category</th>
+                        <th class="text-right px-4 py-3">Amount</th>
+                        <th class="px-4 py-3"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if (!empty($expenses)) : ?>
+
+                    <?php foreach ($expenses as $expense) : ?>
+                        <tr class="border-t border-slate-800 hover:bg-slate-800/30">
+                            <td class="px-4 py-2"><?= $expense['date']; ?></td>
+                            <td class="px-4 py-2"><?= $expense['description']; ?></td>
+                            <td class="px-4 py-2"><?= $expense['category']; ?></td>
+                            <td class="px-4 py-2 text-right"><?= $expense['amount']; ?> €</td>
+                            <td class="px-4 py-2 text-right">
+                            
+                            <div class="inline-flex gap-2">
+                                <a class="text-sky-300 hover:text-sky-200 text-xs border border-sky-400/30 px-3 py-1 rounded-lg" 
+                                href="{{url_for('edit', expense_id=e.id)}}">EDIT</a>
+
+                                <form method="POST" action="/expenses" onsubmit="return confirm('Are you sure you want to delete?')">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="id" value="<?=  $expense['id'] ?>">
+                                    <button class="text-rose-300 hover:text-rose-200 text-xs border border-rose-400/30 px-3 py-1 rounded-lg">
+                                        Delete
+                                    </button>
+                                </form>  
+                            </div>
+                            
+                            </td>
+                        </tr
+                    <?php endforeach; ?>
+                    
+                    <?php else : ?>
+                        <tr class="border-t border-slate-800 hover:bg-slate-800/30">
+                            <td colspan="5" class="px-4 py-6 text-center text-slate-400">
+                            No expenses yet — add your first one above.
+                            </td>
+                        </tr>
+                    <?php endif ?>
+                    </tbody>
+                </table>
+                </div>
             </section>
         </div>
     </div>

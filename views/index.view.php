@@ -55,12 +55,22 @@ require base_path("views/partials/nav.php");
                     </label>
                     </div>
                     <label class="block text-sm">
-                    <span class="mb-1 block text-slate-300">Category</span>
-                    <select
-                        name="source"
-                        class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100">
-                        <option value="Current Workplace">Current Workplace</option>
-                    </select>
+                    <span class="mb-1 block text-slate-300">Source</span>
+                    <div class="flex gap-2">
+                        <select
+                            id="incomeSourceSelect"
+                            name="source"
+                            class="flex-1 rounded-xl bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100">
+                            <option value="">Select or add a source...</option>
+                        </select>
+                        <button
+                            type="button"
+                            id="addSourceBtn"
+                            class="rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 px-3 py-2 border border-slate-600 transition"
+                            title="Add new income source">
+                            +
+                        </button>
+                    </div>
                     </label>
                     <button
                     class="w-full rounded-xl bg-brand/20 hover:bg-brand/30 text-brand px-4 py-2 border border-brand/30"
@@ -234,6 +244,38 @@ require base_path("views/partials/nav.php");
             </section>
         </div>
     </div>
+
+    <!-- Add Income Source Modal -->
+    <div id="addSourceModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4 text-slate-100">Add New Income Source</h3>
+            
+            <input
+                type="text"
+                id="newSourceInput"
+                placeholder="e.g., Freelance Work, Side Hustle, Investments"
+                class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2 text-slate-100 mb-4"
+                maxlength="100">
+            
+            <div id="sourceError" class="text-rose-300 text-sm mb-4 hidden"></div>
+            
+            <div class="flex gap-2">
+                <button
+                    type="button"
+                    id="cancelSourceBtn"
+                    class="flex-1 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 px-4 py-2 border border-slate-600 transition">
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    id="confirmSourceBtn"
+                    class="flex-1 rounded-xl bg-brand/20 hover:bg-brand/30 text-brand px-4 py-2 border border-brand/30 transition">
+                    Add Source
+                </button>
+            </div>
+        </div>
+    </div>
+
         <?php else : ?>
             <h1 class="text-3xl font-bold text-center mb-4">Home Page</h1>
             <p class="text-slate-400 text-center">
@@ -243,3 +285,115 @@ require base_path("views/partials/nav.php");
 <?php
 require base_path("views/partials/footer.php");
 ?>
+
+<script>
+    // Load income sources on page load
+    async function loadIncomeSources() {
+        try {
+            const response = await fetch('/income-sources');
+            const sources = await response.json();
+            const select = document.getElementById('incomeSourceSelect');
+            
+            // Keep the first option
+            const firstOption = select.options[0];
+            select.innerHTML = '';
+            select.appendChild(firstOption);
+            
+            // Add sources from database
+            sources.forEach(source => {
+                const option = document.createElement('option');
+                option.value = source.source_name;
+                option.textContent = source.source_name;
+                select.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading income sources:', error);
+        }
+    }
+
+    // Modal management
+    const modal = document.getElementById('addSourceModal');
+    const addSourceBtn = document.getElementById('addSourceBtn');
+    const cancelSourceBtn = document.getElementById('cancelSourceBtn');
+    const confirmSourceBtn = document.getElementById('confirmSourceBtn');
+    const newSourceInput = document.getElementById('newSourceInput');
+    const sourceError = document.getElementById('sourceError');
+    const select = document.getElementById('incomeSourceSelect');
+
+    // Open modal
+    addSourceBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        newSourceInput.focus();
+        newSourceInput.value = '';
+        sourceError.classList.add('hidden');
+    });
+
+    // Close modal
+    cancelSourceBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    // Close modal on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+
+    // Add new source
+    confirmSourceBtn.addEventListener('click', async () => {
+        const sourceName = newSourceInput.value.trim();
+        
+        if (!sourceName) {
+            sourceError.textContent = 'Please enter a source name';
+            sourceError.classList.remove('hidden');
+            return;
+        }
+
+        try {
+            const response = await fetch('/income-sources', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ source_name: sourceName })
+            });
+
+            if (response.ok) {
+                const newSource = await response.json();
+                
+                // Add new option to select
+                const option = document.createElement('option');
+                option.value = newSource.source_name;
+                option.textContent = newSource.source_name;
+                option.selected = true;
+                select.appendChild(option);
+                
+                // Close modal
+                modal.classList.add('hidden');
+                newSourceInput.value = '';
+                sourceError.classList.add('hidden');
+            } else if (response.status === 409) {
+                sourceError.textContent = 'This income source already exists';
+                sourceError.classList.remove('hidden');
+            } else {
+                const error = await response.json();
+                sourceError.textContent = error.error || 'Error adding source';
+                sourceError.classList.remove('hidden');
+            }
+        } catch (error) {
+            sourceError.textContent = 'Error adding source: ' + error.message;
+            sourceError.classList.remove('hidden');
+        }
+    });
+
+    // Allow Enter key to submit
+    newSourceInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            confirmSourceBtn.click();
+        }
+    });
+
+    // Load sources when page loads
+    document.addEventListener('DOMContentLoaded', loadIncomeSources);
+</script>

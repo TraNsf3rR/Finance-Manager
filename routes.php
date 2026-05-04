@@ -15,6 +15,8 @@ $router->post('/register', 'registration/store.php')->only('guest');
 
 // Add income
 $router->post('/income', 'income/create.php')->only('auth');
+$router->get('/income-sources', 'income/sources.php')->only('auth');
+$router->post('/income-sources', 'income/sources.php')->only('auth');
 
 // Add expense
 $router->post('/expenses', 'expenses/create.php')->only('auth');

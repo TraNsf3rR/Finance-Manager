@@ -17,7 +17,7 @@ ALTER TABLE `income_sources`
 
 -- Add some default sources for existing users
 -- Insert these after running the above, replacing user_id values as needed
--- INSERT INTO `income_sources` (`user_id`, `source_name`) VALUES
--- (6, 'Current Workplace'),
--- (6, 'Freelance'),
--- (6, 'Investments');
+INSERT INTO `income_sources` (`user_id`, `source_name`) VALUES
+(6, 'Current Workplace'),
+(6, 'Freelance'),
+(6, 'Investments');

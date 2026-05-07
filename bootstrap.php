@@ -12,3 +12,10 @@ $container->bind('Core\Database', function () {
 });
 
 App::setContainer($container);
+
+try {
+    $db = App::resolve('Core\Database');
+} catch (Exception $e) {
+    echo "<!DOCTYPE html><html><head><title>Error</title></head><body><h1>" . $e->getMessage() . "</h1></body></html>";
+    exit;
+}

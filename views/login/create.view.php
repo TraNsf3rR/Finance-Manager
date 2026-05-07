@@ -4,9 +4,10 @@ require base_path("views/partials/nav.php");
 ?>
 
     <!-- Login Page Body -->
-    <div class="flex justify-center items-center mt-6 mb-6">
-        <div class="text-slate-100 border border-slate-700 p-8 rounded-lg shadow-lg w-96">
-        <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
+    <div class="w-full px-4 md:px-6">
+        <div class="flex justify-center items-center min-h-screen">
+            <div class="text-slate-100 border border-slate-700 p-8 rounded-lg shadow-lg w-96">
+            <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
             <form method="POST" action="/login">
                 <div class="mb-4">
                     <label class="block text-slate-100">E-mail</label>
@@ -25,6 +26,7 @@ require base_path("views/partials/nav.php");
                 <button type="submit" class="w-full bg-green-950 text-white py-2 rounded-lg hover:bg-green-900">Log In</button>
             </form>
         </div>
+    </div>
 </div>
 <?php
 require base_path("views/partials/footer.php");

@@ -17,8 +17,13 @@ $router->post('/register', 'registration/store.php')->only('guest');
 $router->post('/income', 'income/create.php')->only('auth');
 $router->get('/income-sources', 'income/sources.php')->only('auth');
 $router->post('/income-sources', 'income/sources.php')->only('auth');
+$router->get('/income/edit', 'income/edit.php')->only('auth');
+$router->patch('/income/update', 'income/update.php')->only('auth');
+$router->delete('/income', 'income/delete.php')->only('auth');
 
 // Add expense
 $router->post('/expenses', 'expenses/create.php')->only('auth');
+$router->get('/expenses/edit', 'expenses/edit.php')->only('auth');
+$router->patch('/expenses/update', 'expenses/update.php')->only('auth');
 $router->delete('/expenses', 'expenses/delete.php')->only('auth');
 

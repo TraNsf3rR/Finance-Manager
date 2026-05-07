@@ -3,7 +3,8 @@ require base_path("views/partials/head.php");
 require base_path("views/partials/nav.php");
 ?>
     <!-- Home Page Body -->
-    <div class="container mx-auto max-w-6xl mt-4 mb-4">
+    <div class="w-full px-4 md:px-6 py-6">
+        <div class="mx-auto">
         <?php if (($_SESSION['user']) ?? false)  : ?>
 
         <!-- Flash Message -->
@@ -14,11 +15,6 @@ require base_path("views/partials/nav.php");
                 <p class="rounded-xl px-4 py-3 text-sm bg-emerald-500/10 text-emerald-300 border border-emerald-400/20"><?= $_SESSION['success'] ?></p>
             <?php endif; unset($_SESSION['errors'], $_SESSION['success']); ?>
         </div>
-        <h1 class="text-3xl font-semibold mb-2 mt-2">Dashboard</h1>
-        
-        <p class="text-slate-400 mb-4">
-            Track spending, filter by date/category, and visualize instantly.
-        </p>
 
         <!-- INCOME / EXPENSE DIV -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -128,8 +124,12 @@ require base_path("views/partials/nav.php");
             </section>
         </div>
 
-        <!-- SHOW EXPENSES -->
-        <div class="grid grid-cols-1 gap-4 mt-4">
+        <!-- SEPARATOR -->
+        <div class="mt-6 mb-6 border-t border-slate-700"></div>
+
+        <!-- SHOW EXPENSES AND INCOME SIDE-BY-SIDE -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+            <!-- SHOW EXPENSES -->
             <section class="rounded-2xl border border-slate-800 bg-slate-900">
                 <div class="px-4 py-3 border-b border-slate-800">
                 <h2 class="text-lg font-semibold">Expenses</h2>
@@ -158,7 +158,7 @@ require base_path("views/partials/nav.php");
                                 
                                 <div class="inline-flex gap-2">
                                     <a class="text-sky-300 hover:text-sky-200 text-xs border border-sky-400/30 px-3 py-1 rounded-lg" 
-                                    href="{{url_for('edit', expense_id=e.id)}}">EDIT</a>
+                                    href="/expenses/edit?id=<?= $expense['id'] ?>">EDIT</a>
 
                                     <form method="POST" action="/expenses" onsubmit="return confirm('Are you sure you want to delete?')">
                                         <input type="hidden" name="_method" value="DELETE">
@@ -184,10 +184,8 @@ require base_path("views/partials/nav.php");
                 </table>
                 </div>
             </section>
-        </div>
 
-        <!-- SHOW INCOME -->
-        <div class="grid grid-cols-1 gap-4 mt-4">
+            <!-- SHOW INCOME -->
             <section class="rounded-2xl border border-slate-800 bg-slate-900">
                 <div class="px-4 py-3 border-b border-slate-800">
                 <h2 class="text-lg font-semibold">Income</h2>
@@ -216,7 +214,7 @@ require base_path("views/partials/nav.php");
                                 
                                 <div class="inline-flex gap-2">
                                     <a class="text-sky-300 hover:text-sky-200 text-xs border border-sky-400/30 px-3 py-1 rounded-lg" 
-                                    href="{{url_for('edit', income_id=i.id)}}">EDIT</a>
+                                    href="/income/edit?id=<?= $income['id'] ?>">EDIT</a>
 
                                     <form method="POST" action="/income" onsubmit="return confirm('Are you sure you want to delete?')">
                                         <input type="hidden" name="_method" value="DELETE">
@@ -242,6 +240,7 @@ require base_path("views/partials/nav.php");
                 </table>
                 </div>
             </section>
+        </div>
         </div>
     </div>
 
@@ -277,10 +276,20 @@ require base_path("views/partials/nav.php");
     </div>
 
         <?php else : ?>
-            <h1 class="text-3xl font-bold text-center mb-4">Home Page</h1>
-            <p class="text-slate-400 text-center">
-                Please log in to use app.
-            </p>
+            <div class="flex flex-col items-center justify-center py-10 text-center">
+                <h1 class="text-4xl font-bold mb-4 text-slate-100">Welcome to Finance Manager</h1>
+                <p class="text-slate-400 mb-8 max-w-md">
+                    Take control of your finances. Track your income and expenses, and gain insights into your spending habits.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="/login" class="rounded-xl bg-brand/20 hover:bg-brand/30 text-brand px-6 py-3 border border-brand/30 transition">
+                        Sign In
+                    </a>
+                    <a href="/register" class="rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 px-6 py-3 border border-slate-600 transition">
+                        Create Account
+                    </a>
+                </div>
+            </div>
         <?php endif ?>
 <?php
 require base_path("views/partials/footer.php");
